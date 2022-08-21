@@ -14,18 +14,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: wget https://github.com/bazelbuild/bazel/releases/download/5.2.0/bazel-5.2.0-dist.zip
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          ls
       - name: Check version
         run: |
           python -V
           clang -v
+          java --version
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Download source
+        run: |
+          wget https://github.com/bazelbuild/bazel/releases/download/5.2.0/bazel-5.2.0-dist.zip
+          unzip bazel-5.2.0-dist.zip
+
+      - name: Post information
+        run: |
+          ls
