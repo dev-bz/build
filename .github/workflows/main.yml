@@ -22,10 +22,17 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Download source
-        run: wget https://github.com/bazelbuild/bazel/releases/download/5.2.0/bazel-5.2.0-dist.zip
+        run: wget -q https://github.com/bazelbuild/bazel/releases/download/5.2.0/bazel-5.2.0-dist.zip
       - name: Unzip source
         run: unzip -nq bazel-5.2.0-dist.zip
       - name: Post information
         run: ls
       - name: Compile
         run: env EXTRA_BAZEL_ARGS="--tool_java_runtime_version=local_jdk" bash ./compile.sh
+      - name: Show output
+        run: ls output
+      - name: Store packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: bazel
+          path: output/bazel
