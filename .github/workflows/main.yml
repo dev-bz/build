@@ -43,5 +43,5 @@ jobs:
       - name: Store packages
         uses: actions/upload-artifact@v3
         with:
-          name: bazel
+          name: bazel-${{matrix.version}}-${{matrix.tool}}
           path: output/bazel
