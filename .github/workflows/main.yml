@@ -26,9 +26,9 @@ jobs:
       - name: Download source
         run: wget https://github.com/bazelbuild/bazel/releases/download/5.2.0/bazel-5.2.0-dist.zip
       - name: Unzip source
-        run: unzip bazel-5.2.0-dist.zip > unzip.log
+        run: unzip bazel-5.2.0-dist.zip -q
       - name: Post information
-        run: ls
+        run: ls bazel
       - name: Compile
         run: |
           cd 
