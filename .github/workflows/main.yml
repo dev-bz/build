@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ['5.2.0', '3.7.2']
+        version: ['5.2.0', '4.2.2', '3.7.2']
         tool: ['8', '11']
       fail-fast: false
     steps:
