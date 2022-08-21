@@ -28,7 +28,7 @@ jobs:
       - name: Post information
         run: ls
       - name: Compile
-        run: env EXTRA_BAZEL_ARGS="--tool_java_runtime_version=local_jdk" bash ./compile.sh
+        run: env EXTRA_BAZEL_ARGS="--tool_java_runtime_version=local_jdk" bash ./compile.sh > info.log
       - name: Show output
         run: ls output
       - name: Store packages
