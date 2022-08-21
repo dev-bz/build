@@ -10,8 +10,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        version: ["5.2.0", "3.7.2"]
     steps:
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
       - name: Check version
         run: |
           python -V
@@ -22,13 +28,13 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Download source
-        run: wget -q https://github.com/bazelbuild/bazel/releases/download/5.2.0/bazel-5.2.0-dist.zip
+        run: wget -q https://github.com/bazelbuild/bazel/releases/download/${{ matrix.version }}/bazel-${{ matrix.version }}-dist.zip
       - name: Unzip source
-        run: unzip -nq bazel-5.2.0-dist.zip
+        run: unzip -nq bazel-${{ matrix.version }}-dist.zip
       - name: Post information
         run: ls
       - name: Compile
-        run: env EXTRA_BAZEL_ARGS="--tool_java_runtime_version=local_jdk" bash ./compile.sh > info.log
+        run: env EXTRA_BAZEL_ARGS="--tool_java_runtime_version=local_jdk" bash ./compile.sh
       - name: Show output
         run: ls output
       - name: Store packages
