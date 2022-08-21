@@ -12,13 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ["5.2.0", "3.7.2"]
+        version: ['5.2.0', '3.7.2']
+        tool: ['8', '11']
       fail-fast: false
     steps:
-      #- uses: actions/setup-java@v3
-      #  with:
-      #    distribution: 'temurin' # See 'Supported distributions' for available options
-      #    java-version: '17'
+      - uses: actions/setup-java@v3
+        if: '11' != ${{matrix.tool}}
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
       - name: Check version
         run: |
           python -V
