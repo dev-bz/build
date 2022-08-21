@@ -17,10 +17,10 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/setup-java@v3
-        if: "'8' == ${{ matrix.tool }}"
+        if: 8 == ${{ matrix.tool }}
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: '8'
+          java-version: 8
       - name: Check version
         run: |
           python -V
