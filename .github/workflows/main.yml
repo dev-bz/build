@@ -28,7 +28,7 @@ jobs:
       - name: Unzip source
         run: unzip -nq bazel-5.2.0-dist.zip
       - name: Post information
-        run: ls bazel
+        run: ls
       - name: Compile
         run: |
           cd 
