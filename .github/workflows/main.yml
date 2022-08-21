@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         version: ["5.2.0", "3.7.2"]
+      fail-fast: false
     steps:
       - uses: actions/setup-java@v3
         with:
