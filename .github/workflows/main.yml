@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         version: ['5.2.0', '4.2.2', '3.7.2']
-        tool: ['8', '11']
+        tool: ['8', '11', '17', '18']
       fail-fast: false
     steps:
       - uses: actions/setup-java@v3
