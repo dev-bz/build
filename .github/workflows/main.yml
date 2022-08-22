@@ -39,7 +39,9 @@ jobs:
       - name: Compile
         run: env EXTRA_BAZEL_ARGS="--tool_java_runtime_version=local_jdk" bash ./compile.sh
       - name: Show output
-        run: ls output
+        run: |
+          ls output
+          if [ ! -e output/bazel ]; then exit 1; fi
       - name: Store packages
         uses: actions/upload-artifact@v3
         with:
