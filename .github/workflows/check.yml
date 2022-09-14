@@ -22,7 +22,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Download Zip
-        run: wget -q https://github.com/dev-bz/build/releases/download/bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
+        run: wget -q https://github.com/dev-bz/build/releases/download/bazel-${{matrix.version}}-java.${{matrix.tool}}/bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
       - name: Unzip source
         run: unzip -nq bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
 
