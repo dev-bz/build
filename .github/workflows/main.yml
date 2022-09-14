@@ -4,8 +4,24 @@ on:
   workflow_dispatch:
 
 jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: bazel
+          release_name: Release bazel
+          draft: false
+          prerelease: false
+      - name:
+        run: echo ${{ steps.create_release.outputs.upload_url }} 
   build:
     runs-on: ubuntu-latest
+    if: false
     strategy:
       matrix:
         version: ['0.26.1', '5.3.0', '5.2.0', '4.2.2', '3.7.2']
@@ -42,16 +58,6 @@ jobs:
       - name: Zip packages
         run: zip bazel.zip output/bazel
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{matrix.version}}-${{matrix.tool}}
-          release_name: Release bazel
-          draft: false
-          prerelease: false
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
