@@ -12,11 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Download
-        run: |
-          wget https://github.com/dev-bz/build/suites/8291621939/artifacts/363503054
-          wget https://github.com/dev-bz/build/suites/8291621939/artifacts/363503055
-          ls -h
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -27,12 +22,23 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset 
+      - name: Upload Release Asset 11
+        id: upload-release-asset-v11
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./*.zip
+          upload_url: https://github.com/dev-bz/build/suites/8291621939/artifacts/363503054 # ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          # asset_path: ./*.zip
+          asset_name: bazel-3.7.2-11.zip
+          asset_content_type: application/zip
+      - name: Upload Release Asset 8
+        id: upload-release-asset-v8
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: https://github.com/dev-bz/build/suites/8291621939/artifacts/363503055 # ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          # asset_path: ./*.zip
+          asset_name: bazel-3.7.2-8.zip
           asset_content_type: application/zip
