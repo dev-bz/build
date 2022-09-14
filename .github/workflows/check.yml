@@ -12,6 +12,8 @@ jobs:
         tool: ['8', '11']
       fail-fast: true
     steps:
+      - name: List information
+        ls /usr/local/bin
       - uses: actions/setup-java@v3
         if: ${{ matrix.tool != '11' }}
         with:
