@@ -1,10 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -42,54 +38,27 @@ jobs:
         run: |
           ls output
           if [ ! -e output/bazel ]; then exit 1; fi
-      - name: Store packages
-        uses: actions/upload-artifact@v3
+
+      - name: Zip packages
+        run: zip bazel-${{matrix.version}}-java.${{matrix.tool}}.zip output/bazel
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: bazel-${{matrix.version}}-java.${{matrix.tool}}
-          path: output/bazel
-
-      - name: Install Bazel
-        run: |
-          sudo ln -s $PWD/output/bazel /use/local/bin/bazel
-          bazel --version
-
-      - name: Setup for tf
-        run: |
-          sudo apt-get install -y libhdf5-dev libc-ares-dev libeigen3-dev libatlas-base-dev libopenblas-dev
-          sudo pip3 install keras_applications==1.0.8 --no-deps
-          sudo pip3 install keras_preprocessing==1.1.0 --no-deps
-          sudo pip3 install h5py==2.9.0
-          sudo apt-get install -y openmpi-bin libopenmpi-dev
-          sudo -H pip3 install -U --user six numpy wheel mock
-
-      - name: Clone Tensorflow
-        run: |
-          git clone -b v1.15.0 https://github.com/tensorflow/tensorflow.git
-          cd tensorflow
-          git checkout -b v1.15.0
-          cd ..
-      - name: Configure
-        run: |
-          cd tensorflow
-          ./configure
-          cd ..
-      - name: Build
-        run: |
-          cd tensorflow
-          sudo bazel build \
-          --config=opt \
-          --config=noaws \
-          --config=nogcp \
-          --config=nohdfs \
-          --config=noignite \
-          --config=nokafka \
-          --config=nonccl \
-          --local_resources=1024.0,0.5,0.5 \
-          --copt=-mfpu=neon-vfpv4 \
-          --copt=-ftree-vectorize \
-          --copt=-funsafe-math-optimizations \
-          --copt=-ftree-loop-vectorize \
-          --copt=-fomit-frame-pointer \
-          --copt=-DRASPBERRY_PI \
-          --host_copt=-DRASPBERRY_PI //tensorflow/tools/pip_package:build_pip_package
-          cd ..
+          tag_name: bazel-${{matrix.version}}-java.${{matrix.tool}}
+          release_name: Release bazel-${{matrix.version}}-java.${{matrix.tool}}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset 11
+        id: upload-release-asset-v11
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
+          asset_name: bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
+          asset_content_type: application/zip
