@@ -1,4 +1,4 @@
-name: Check bazel
+name: CI
 
 on:
   workflow_dispatch:
@@ -10,13 +10,64 @@ jobs:
       matrix:
         version: ['3.7.2'] # ['5.3.0', '5.2.0', '4.2.2', '3.7.2']
         tool: ['8', '11']
-      fail-fast: false
+      fail-fast: true
     steps:
+      - uses: actions/setup-java@v3
+        if: ${{ matrix.tool != '11' }}
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: ${{ matrix.tool }}
+
       - uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: bazel-${{matrix.version}}-java.${{matrix.tool}}
-    
-      - name: Display structure of downloaded files
-        run: ls -R
+      # Runs a single command using the runners shell
+      - name: Download Zip
+        run: wget -q https://github.com/dev-bz/build/releases/download/bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
+      - name: Unzip source
+        run: unzip -nq bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
+
+      - name: Install Bazel
+        run: |
+          sudo ln -s $PWD/output/bazel /use/local/bin/bazel
+          bazel --version
+
+      - name: Setup for tf
+        run: |
+          sudo apt-get install -y libhdf5-dev libc-ares-dev libeigen3-dev libatlas-base-dev libopenblas-dev
+          sudo pip3 install keras_applications==1.0.8 --no-deps
+          sudo pip3 install keras_preprocessing==1.1.0 --no-deps
+          sudo pip3 install h5py==2.9.0
+          sudo apt-get install -y openmpi-bin libopenmpi-dev
+          sudo -H pip3 install -U --user six numpy wheel mock
+
+      - name: Clone Tensorflow
+        run: |
+          git clone -b v1.15.0 https://github.com/tensorflow/tensorflow.git
+          cd tensorflow
+          git checkout -b v1.15.0
+          cd ..
+      - name: Configure
+        run: |
+          cd tensorflow
+          ./configure
+          cd ..
+      - name: Build
+        run: |
+          cd tensorflow
+          sudo bazel build \
+          --config=opt \
+          --config=noaws \
+          --config=nogcp \
+          --config=nohdfs \
+          --config=noignite \
+          --config=nokafka \
+          --config=nonccl \
+          --local_resources=1024.0,0.5,0.5 \
+          --copt=-mfpu=neon-vfpv4 \
+          --copt=-ftree-vectorize \
+          --copt=-funsafe-math-optimizations \
+          --copt=-ftree-loop-vectorize \
+          --copt=-fomit-frame-pointer \
+          --copt=-DRASPBERRY_PI \
+          --host_copt=-DRASPBERRY_PI //tensorflow/tools/pip_package:build_pip_package
+          cd ..
