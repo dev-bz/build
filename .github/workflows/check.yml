@@ -1,0 +1,22 @@
+name: Check bazel
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ['3.7.2'] # ['5.3.0', '5.2.0', '4.2.2', '3.7.2']
+        tool: ['8', '11']
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: bazel-${{matrix.version}}-java.${{matrix.tool}}
+    
+      - name: Display structure of downloaded files
+        run: ls -R
