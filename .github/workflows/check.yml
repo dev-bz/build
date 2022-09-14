@@ -32,7 +32,10 @@ jobs:
       - name: Install Bazel
         run: |
           # sudo ln -s $PWD/output/bazel /usr/local/bin/bazel
+          ls -l /usr/local/bin/bazel
+          cat /usr/local/bin/bazel
           bazel --version
+          exit 1
 
       - name: Setup for tf
         run: |
