@@ -29,8 +29,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: https://github.com/dev-bz/build/suites/8291621939/artifacts/363503054 # ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./bazel-3.7.2-11.zip
-          asset_name: bazel-3.7.2-11.zip
+          # asset_path: ./bazel-3.7.2-11.zip
+          # asset_name: bazel-3.7.2-11.zip
           asset_content_type: application/zip
       - name: Upload Release Asset 8
         id: upload-release-asset-v8
@@ -39,6 +39,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: https://github.com/dev-bz/build/suites/8291621939/artifacts/363503055 # ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./bazel-3.7.2-8.zip
-          asset_name: bazel-3.7.2-8.zip
+          # asset_path: ./bazel-3.7.2-8.zip
+          # asset_name: bazel-3.7.2-8.zip
           asset_content_type: application/zip
