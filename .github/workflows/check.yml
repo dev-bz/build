@@ -20,9 +20,11 @@ jobs:
         run: |
           # sudo ln -sf $PWD/output/bazel /usr/local/bin/bazel
           ls -l /usr/local/bin/bazel
-          # cat /usr/local/bin/bazel
+          cat /usr/local/bin/bazel
+          echo 0.26.1>~/.bazelversion
           echo 0.26.1>.bazelversion
           bazel --version
+          exit 1
 
       - name: Setup for tf
         run: |
