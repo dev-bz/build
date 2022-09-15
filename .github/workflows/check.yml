@@ -24,6 +24,7 @@ jobs:
           echo 0.26.1>~/.bazelversion
           echo 0.26.1>.bazelversion
           bazel --version
+          hazel --help
           exit 1
 
       - name: Setup for tf
