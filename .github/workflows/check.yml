@@ -18,9 +18,10 @@ jobs:
 
       - name: Install Bazel
         run: |
-          wget https://github.com/bazelbuild/bazel/releases/download/${{ matrix.version}}/bazel-${{ matrix.version}}-linux-x86_64
-          # sudo ln -sf $PWD/output/bazel /usr/local/bin/bazel
-          ls -l
+          wget -q https://github.com/bazelbuild/bazel/releases/download/${{ matrix.version}}/bazel-${{ matrix.version}}-linux-x86_64
+          sudo chmod +x bazel-${{ matrix.version}}-linux-x86_64
+          sudo ln -sf $PWD/bazel-${{ matrix.version}}-linux-x86_64 /usr/local/bin/bazel
+          bazel --version
           exit 1
 
       - name: Setup for tf
