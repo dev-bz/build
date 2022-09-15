@@ -23,6 +23,7 @@ jobs:
           cat /usr/local/bin/bazel
           echo 0.26.1>~/.bazelversion
           echo 0.26.1>.bazelversion
+          bazelisk --help
           bazel --version
           exit 1
 
