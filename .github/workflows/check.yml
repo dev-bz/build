@@ -19,11 +19,6 @@ jobs:
       - name: Install Bazel
         run: |
           # sudo ln -sf $PWD/output/bazel /usr/local/bin/bazel
-          ls -l /usr/local/bin/bazel*
-          cat /usr/local/bin/bazel
-          echo 0.26.1>~/.bazelversion
-          echo 0.26.1>.bazelversion
-          bazelisk --help
           bazel --version
           exit 1
 
