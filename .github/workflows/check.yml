@@ -23,17 +23,18 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Download Zip
-        # if: false
+        if: false
         run: wget -q https://github.com/dev-bz/build/releases/download/bazel-${{matrix.version}}-java.${{matrix.tool}}/bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
       - name: Unzip source
-        # if: false
+        if: false
         run: unzip -nq bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
 
       - name: Install Bazel
         run: |
-          sudo ln -sf $PWD/output/bazel /usr/local/bin/bazel
+          # sudo ln -sf $PWD/output/bazel /usr/local/bin/bazel
           ls -l /usr/local/bin/bazel
           # cat /usr/local/bin/bazel
+          echo 0.26.1>.bazelversion
           bazel --version
 
       - name: Setup for tf
@@ -49,6 +50,7 @@ jobs:
         run: |
           git clone -b v1.15.0 https://github.com/tensorflow/tensorflow.git
           cd tensorflow
+          echo 0.26.1>.bazelversion
           git checkout -b v1.15.0
           cd ..
       - name: Configure
