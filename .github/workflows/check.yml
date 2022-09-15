@@ -21,7 +21,7 @@ jobs:
           wget -q https://github.com/bazelbuild/bazel/releases/download/${{ matrix.version}}/bazel-${{ matrix.version}}-linux-x86_64
           sudo chmod +x bazel-${{ matrix.version}}-linux-x86_64
           sudo ln -sf $PWD/bazel-${{ matrix.version}}-linux-x86_64 /usr/local/bin/bazel
-          bazel --version
+          bazel --help
           exit 1
 
       - name: Setup for tf
