@@ -22,7 +22,6 @@ jobs:
           sudo chmod +x bazel-${{ matrix.version}}-linux-x86_64
           sudo ln -sf $PWD/bazel-${{ matrix.version}}-linux-x86_64 /usr/local/bin/bazel
           bazel version
-          exit 1
 
       - name: Setup for tf
         run: |
@@ -37,7 +36,6 @@ jobs:
         run: |
           git clone -b v1.15.0 https://github.com/tensorflow/tensorflow.git
           cd tensorflow
-          echo 0.26.1>.bazelversion
           git checkout -b v1.15.0
           cd ..
       - name: Configure
