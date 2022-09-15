@@ -8,26 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ['3.7.2'] # ['5.3.0', '5.2.0', '4.2.2', '3.7.2']
-        tool: ['8', '11']
+        version: ['0.26.1', '3.7.2'] # ['5.3.0', '5.2.0', '4.2.2', '3.7.2']
       fail-fast: true
     steps:
       - name: List information
         run: ls /usr/local/bin
-      - uses: actions/setup-java@v3
-        if: ${{ matrix.tool != '11' }}
-        with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: ${{ matrix.tool }}
 
       - uses: actions/checkout@v3
-
-      - name: Download Zip
-        if: false
-        run: wget -q https://github.com/dev-bz/build/releases/download/bazel-${{matrix.version}}-java.${{matrix.tool}}/bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
-      - name: Unzip source
-        if: false
-        run: unzip -nq bazel-${{matrix.version}}-java.${{matrix.tool}}.zip
 
       - name: Install Bazel
         run: |
