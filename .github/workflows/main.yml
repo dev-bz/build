@@ -30,7 +30,6 @@ jobs:
       - name: Zip
         run: |
           echo ${{ steps.create_release.outputs.upload_url }}
-          echo ${{ release.steps.create_release.outputs.upload_url }}
           echo Test > README.md
           zip bazel-${{ matrix.version }}-${{ matrix.tool }}.zip README.md
       - name: Upload Release Asset
