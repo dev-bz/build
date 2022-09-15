@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ['0.26.1', '3.7.2'] # ['5.3.0', '5.2.0', '4.2.2', '3.7.2']
+        version: ['0.26.1'] # ['5.3.0', '5.2.0', '4.2.2', '3.7.2']
       fail-fast: false
     steps:
       - name: List information
@@ -63,7 +63,6 @@ jobs:
           --config=nokafka \
           --config=nonccl \
           --local_resources=1024.0,0.5,0.5 \
-          --copt=-mfpu=neon-vfpv4 \
           --copt=-ftree-vectorize \
           --copt=-funsafe-math-optimizations \
           --copt=-ftree-loop-vectorize \
