@@ -39,9 +39,9 @@ jobs:
 
       - name: Clone Tensorflow
         run: |
-          git clone -b v1.15.0 https://github.com/tensorflow/tensorflow.git
+          git clone -b v1.13.1 https://github.com/tensorflow/tensorflow.git
           cd tensorflow
-          git checkout -b v1.15.0
+          git checkout -b v1.13.1
           cd ..
       - name: Configure
         run: |
