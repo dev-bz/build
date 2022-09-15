@@ -13,14 +13,11 @@ jobs:
     steps:
       - name: List information
         run: |
-          python -V
           sudo apt update
           sudo apt upgrade
       - name: Version
         run: |
-          sudo apt list "*python*"
           python -V
-          exit 1
 
       - uses: actions/checkout@v3
 
