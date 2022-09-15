@@ -12,7 +12,14 @@ jobs:
       fail-fast: false
     steps:
       - name: List information
-        run: ls /usr/local/bin
+        run: |
+          python -V
+          sudo apt update
+          sudo apt upgrade
+      - name: Version
+        run: |
+          python -V
+          exit 1
 
       - uses: actions/checkout@v3
 
